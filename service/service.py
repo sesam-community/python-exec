@@ -1,7 +1,13 @@
 import os
+import json
 
-to_exec=os.environ.get('EXEC', '''
-for k in os.environ:
-  print("%s: %s" % (k, os.environ[k]))
+env=os.environ.get('EXEC', '''[
+"for k in os.environ:"
+"  print("%s: %s" % (k, os.environ[k]))"
+]
 ''')
-exec(to_exec)
+cmd=json.loads(env)
+if isinstance(cmd, list):
+ cmd="\n".join(cmd)
+
+exec(cmd)
